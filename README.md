@@ -1,7 +1,9 @@
 # 📡 SVXLink Mobile Dashboard Ver 1.0 <img src="mobile/images/icon-512.png" width="40">
 
-Diese Erweiterung baut auf dem [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2)  auf und bringt das vollständige Desktop-Dashboard in einer für das Smartphone optimierten und übersichtlichen Version.
+This extension builds on [SVXLink-Dash-V2 by DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2) and brings the full desktop dashboard in a clean, smartphone-optimized version.
 
+This is an dual language Dashboard --> German and English! you install it and you can use both versions.
+> 🇬🇧 **An English version of this dashboard is available at `/mobile/en`**
 
 <p align="center">
   <img src="/images/dark.png" width="350">
@@ -12,65 +14,72 @@ Diese Erweiterung baut auf dem [SVXLink-Dash-V2 von DL3EL](https://github.com/DL
 
 -----
 
-## ✨ Funktionen
+## ✨ Features
 
-- 📊 **Live Dashboard** — Radiostatus, aktive TG, aktueller Sprecher
-- 📱 Als PWA App installierbar — Fullscreen wie auf den Screenshots
-- 📋 **Aktivitätslog** — SVXReflector-Aktivität in Echtzeit
-- 🔁 **Talk Groups** — TGs direkt anzeigen und aktivieren
-- ⌨️ **DTMF-Tastatur** — DTMF-Töne mit einem Tipp senden
-- ⚡ **Schnellbefehle** — Konfigurierbare Shortcut-Buttons (aus `config.php`)
-- 🌙☀️ **Automatischer Dark/Light Mode** — Folgt der Systemdarstellung des Handys
+- 📊 **Live Dashboard** — Radio status, active TGs, current speaker
+- 📱 Installable as a PWA — Fullscreen just like in the screenshots
+- 📋 **Activity Log** — SVXReflector activity in real time
+- 🔁 **Talk Groups** — View and activate TGs directly
+- ⌨️ **DTMF Keypad** — Send DTMF tones with a single tap
+- ⚡ **Quick Commands** — Configurable shortcut buttons (from `config.php`)
+- 🌙☀️ **Automatic Dark/Light Mode** — Follows the system appearance of your phone
 
 -----
 
 ## 📲 Installation
 
-> Setzt eine funktionierende [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) Installation unter `/var/www/html` voraus.
+> Requires a working [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) installation under `/var/www/html`.
 
-Vom Home-Verzeichnis auf dem Svx Servers / Pi ausführen:
+Run from the home directory on the SVX server / Pi:
 
 ```bash
 cd /var/www/html && sudo git clone --depth 1 https://github.com/sebastianmadl/svxlink-mobiledash.git temp && sudo mv temp/mobile mobile && sudo rm -rf temp && sudo chown -R www-data:www-data mobile
 ```
 
-Danach im Browser aufrufen:
+Then open in your browser for German:
 
 ```
-http://<IP-des-SvxHosts>/mobile/
+http://<IP-of-SvxHost>/mobile/
 ```
+
+Then open in your browser for English:
+
+```
+http://<IP-of-SvxHost>/mobile/en
+``
 
 -----
 
-## 📁 Verzeichnisstruktur
+## 📁 Directory Structure
 
 ```
 /var/www/html/
 └── mobile/
-    ├── index.php          # Haupt-SPA (Dashboard, Aktivität, TG, DTMF)
-    ├── dtmf.php           # Eigenständige DTMF-Seite
-    ├── api/
-    │   ├── dtmf.php       # DTMF-API-Endpunkt
-    │   └── stream.php     # SSE Live-Datenstrom
+    ├── index.php          # Main SPA – German version
+    ├── dtmf.php           # Standalone DTMF page – German version
+    ├── manifest.json      # PWA manifest – German
     ├── css/
-    │   └── app.css        # Styles inkl. Dark/Light Mode
-    └── js/
-        └── app.js         # Frontend-Logik
+    │   └── app.css        # Shared styles incl. Dark/Light Mode
+    ├── js/
+    │   └── app.js         # Frontend logic – German strings & api/ paths
+    ├── api/
+    │   ├── dtmf.php       # DTMF API endpoint (shared)
+    │   └── stream.php     # SSE live data stream (shared)
+    ├── images/            # Shared icons
+    │   ├── icon-192.png
+    │   └── icon-512.png
+    └── en/
+        ├── index.php      # Main SPA – English version  →  mobile/en/
+        ├── dtmf.php       # Standalone DTMF page – English version
+        ├── manifest.json  # PWA manifest – English
+        └── app.js         # Frontend logic – English strings & ../api/ paths
 ```
-
------
-
-## ⚙️ Voraussetzungen
-
-- SVXLink-Dash-V2 installiert und funktionsfähig unter `/var/www/html` oder wenn unter einem anderen Pfad bitte das bash command unter install anpassen.
-- PHP 7.4+
-
 
 -----
 
 ## 🖌️ Dark / Light Mode
 
-Das Dashboard passt sich automatisch an die Systemdarstellung des Handys an — kein manueller Schalter nötig. Einfach in den Display-Einstellungen des Smartphones zwischen Dark und Light Mode wechseln.
+The dashboard automatically adapts to the system appearance of your phone — no manual toggle needed. Simply switch between Dark and Light Mode in your smartphone's display settings.
 
 <p align="center">
   <img src="/images/dark.png" width="350">
@@ -79,46 +88,44 @@ Das Dashboard passt sich automatisch an die Systemdarstellung des Handys an — 
 
 -----
 
-## 📱 Als App installieren (PWA)
+## 📱 Install as App (PWA)
 
-Das Dashboard kann auf dem Homebildschirm installiert werden und verhält 
-sich dann wie eine native App — ohne Browser-Leiste, im Vollbild.
+The dashboard can be installed on your home screen and will behave like a native app — no browser bar, full screen.
 
-**App icon:** 
+**App icon:**
 
 <img src="mobile/images/icon-512.png" width="125">
 
 **iOS (Safari):**
-1. Seite in Safari öffnen
-2. Teilen-Symbol antippen (⬆️)
-3. „Zum Home-Bildschirm" wählen
-4. Namen bestätigen → „Hinzufügen"
+1. Open the page in Safari
+2. Tap the share icon (⬆️)
+3. Select "Add to Home Screen"
+4. Confirm the name → "Add"
 
 **Android (Chrome):**
-1. Seite in Chrome öffnen
-2. Menü antippen (⋮)
-3. „Zum Startbildschirm hinzufügen" wählen
-4. Namen bestätigen → „Hinzufügen"
+1. Open the page in Chrome
+2. Tap the menu (⋮)
+3. Select "Add to Home Screen"
+4. Confirm the name → "Add"
 
-> Tipp: Unter iOS muss zwingend Safari verwendet werden, 
-> unter Android funktioniert es auch mit Firefox oder Edge.
+> Tip: On iOS, Safari must be used. On Android, Firefox or Edge also work.
 
- -----
+-----
 
-## 👤 Autor
+## 👤 Author
 
 **OE1SXM — Sebastian M.**  
 [github.com/sebastianmadl](https://github.com/sebastianmadl)
 
 -----
 
-## 🙏 Danksagung
+## 🙏 Credits
 
-- Ursprüngliches Dashboard: [DL3EL/SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2)
-- SVXLink Projekt: [sm0svx/svxlink](https://github.com/sm0svx/svxlink)
+- Original Dashboard: [DL3EL/SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2)
+- SVXLink Project: [sm0svx/svxlink](https://github.com/sm0svx/svxlink)
 
 -----
 
-## 📄 Lizenz
+## 📄 License
 
-Dieses Projekt baut auf SVXLink-Dash-V2 auf. Lizenzdetails bitte beim Originalprojekt nachlesen.
+This project builds on SVXLink-Dash-V2. Please refer to the original project for license details.

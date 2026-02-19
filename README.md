@@ -1,8 +1,7 @@
 # 📡 SVXLink Mobile Dashboard
 
-Ein responsives, mobil-optimiertes Web-Dashboard für [SVXLink](https://github.com/sm0svx/svxlink) / SVXReflector — direkt im Smartphone-Browser nutzbar.
-
-Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2).
+Eine Erweiterung um die mobil funktion des DL3EL Dashboards.
+Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2). Wird hier das Gesammte desktop Dashboard mobil verpackt und aufgeräumt.
 
 ![SVXLink Mobile Dashboard Screenshot](screenshot.png)
 
@@ -23,7 +22,7 @@ Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVX
 
 > Setzt eine funktionierende [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) Installation unter `/var/www/html` voraus.
 
-Vom Home-Verzeichnis auf dem Raspberry Pi ausführen:
+Vom Home-Verzeichnis auf dem Svx Servers / Pi ausführen:
 
 ```bash
 wget https://github.com/sebastianmadl/svxlink-mobiledash/releases/latest/download/svxlink-mobiledash-by-oe1sxm.zip

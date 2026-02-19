@@ -1,61 +1,3 @@
-https://github.com/sebastianmadl/svxlink-mobiledash/tree/main/mobile
-
-das ist das github von meinem dashboard, können wir einen schnellen fix machen wo die DTMF tatatur etwas in die länge gezogen wird? diese ist etwas gestaucht.
-eventuell bis zur roten markierten linie hinunter oder am besten wäre es gleich komplett eckige tasten
-18:51
-
-Ich schaue mir den Code zuerst an!
-Web durchsucht
-favicon
-favicon
-favicon
-favicon
-GitHub - f5vmr/SVXLink-Dash-V2
-github.com
-favicon
-GitHub - dl1bz/svxlinkdb4rptr: Dashboard SVXLINK for FM repeaters and FM simplex systems (discontinued)
-github.com
-favicon
-GitHub - DL3EL/SVXLink-Dash-V2
-github.com
-favicon
-Need option to change DTMF commands · Issue #156 · sm0svx/svxlink
-github.com
-favicon
-DTMF from external source · Issue #262 · sm0svx/svxlink
-github.com
-favicon
-SvxLinkServerUserDocs · sm0svx/svxlink Wiki · GitHub
-github.com
-favicon
-Dashboard Svxlink DjSpot mit Steuerungsfunktion - FM-Funknetz Forum
-forum.fm-funknetz.de
-favicon
-FeatureList · sm0svx/svxlink Wiki · GitHub
-github.com
-favicon
-Manual DTMF input via keyboard console notes and bugs. · Issue #554 · sm0svx/svxlink
-github.com
-favicon
-SVXLink – The Dashboard. – Amateur Radio Station G4NAB
-g4nab.co.uk
-Fertig
-
-Ich konnte den direkten Code nicht laden. Lass mich den raw GitHub Link versuchen:
-Web durchsucht
-favicon
-favicon
-Fertig
-
-Leider kann ich GitHub direkt nicht abrufen aufgrund von Netzwerkbeschränkungen. Kannst du mir den relevanten HTML/CSS Code aus deiner DTMF-Seite direkt hier einfügen? Dann mache ich den Fix sofort.
-
-Alternativ: Wenn du den Dateinamen kennst (z.B. dtmf.html), kannst du ihn hier hochladen, dann kann ich direkt damit arbeiten.
-
-Was ich basierend auf dem Screenshot bereits sagen kann:
-
-Das Problem ist wahrscheinlich, dass die Tasten zu wenig padding oder height haben. Der Fix wäre ungefähr:
-css
-
 /* Tasten quadratisch/eckig und größer machen */
 .dtmf-btn, .key-btn {
   border-radius: 0 !important;        /* eckig statt rund */
@@ -64,57 +6,6 @@ css
   min-height: 70px;
 }
 
-Schick mir den Code und ich passe ihn präzise an! 🎛️
-18:53
-
-Perfekt, ich habe alles! Den Fix mache ich direkt in der app.css.
-
-Das Problem: .dkey hat height:52px fix, und die Keys sind zu klein. Ich mache sie quadratisch mit aspect-ratio und entferne die fixe Höhe, außerdem eckiger (kleinerer border-radius).
-Hat 2 Befehle ausgeführt, datei bearbeitet, hat eine Datei gelesen
-+3-3
-Fertig
-
-Genau 3 Änderungen in der .dkey Klasse:
-
-    border-radius: 8px → 4px (eckiger)
-    height: 52px (fix) → aspect-ratio: 1/1 + min-height: 64px (quadratisch & größer)
-    Gap von 6px → 8px (etwas mehr Abstand)
-
-Einfach die app.css durch diese ersetzen, und die DTMF-Tasten sollten nun schön quadratisch und deutlich größer sein – ungefähr bis zur roten Linie wie im Screenshot. 🎛️
-App
-Code · CSS 
-
-boarder radius kann theoretisch bleiben, ist ja alles so durch gestylt
-18:54
-
-Kein Problem! Ich mache den border-radius wieder auf den ursprünglichen 8px zurück.
-Datei bearbeitet, befehl ausgeführt, hat eine Datei gelesen
-+1-1
-Fertig
-
-Passt so! border-radius bleibt auf 8px, nur die Größe der Tasten wurde angepasst – quadratisch mit aspect-ratio: 1/1 und min-height: 64px. Einfach die Datei wieder unter mobile/css/app.css ablegen. 👍
-App
-Code · CSS 
-
-kann man da einen schutz für pc nutzer einbauen mit maximal 150px breite?
-18:59
-
-Gute Idee! Einfach max-width auf die .dkeys Grid setzen und zentrieren.
-Add max-width protection for PC users on dkeys grid
-+1-1
-Fertig
-
-Wait – du meintest 150px pro Taste, also maximal 600px für das ganze Grid (4 Tasten × 150px). Das hab ich so umgesetzt. Falls du 150px für das gesamte Grid meintest, sag kurz Bescheid!
-Befehl ausgeführt, hat eine Datei gelesen
-Fertig
-
-Auf dem PC bleibt das Grid jetzt auf maximal 600px begrenzt und zentriert – das entspricht 4 Tasten à 150px. Auf dem Handy ändert sich nichts, da es ohnehin schmäler ist. 👍
-App
-Code · CSS 
-
-
-Claude ist eine KI und kann Fehler machen. Bitte überprüfe die Antworten.
-App · CSS
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600&family=Barlow+Condensed:wght@600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -231,9 +122,10 @@ main{margin-top:var(--hh);margin-bottom:var(--nh);padding:10px;overflow-y:auto;-
 .tgn{font-family:var(--mono);font-size:16px;color:var(--blu);min-width:60px}
 .tgname{flex:1;font-size:14px;color:var(--fg)}
 .tgarr{color:var(--di);font-size:20px}
-.tgman{padding:12px 14px;display:flex;gap:10px;align-items:center}
-.txti{flex:1;background:var(--up);border:1px solid var(--b2);border-radius:8px;padding:10px 12px;color:var(--fg);font-family:var(--mono);font-size:16px;outline:none}
+.tgman{padding:12px 14px;display:flex;gap:10px;align-items:center;flex-wrap:nowrap}
+.txti{flex:1;min-width:0;background:var(--up);border:1px solid var(--b2);border-radius:8px;padding:10px 12px;color:var(--fg);font-family:var(--mono);font-size:16px;outline:none}
 .txti:focus{border-color:var(--blu-bd)}
+.tgman .btn{flex-shrink:0}
 .arow{display:flex;gap:10px;padding:12px 14px}
 
 /* Buttons */

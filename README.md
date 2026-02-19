@@ -26,14 +26,14 @@ Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVX
 Vom Home-Verzeichnis auf dem Raspberry Pi ausführen:
 
 ```bash
-wget https://github.com/sebastianmadl/svxlink-mobiledash/releases/latest/download/svxlink-mobiledash.zip
-sudo unzip -o svxlink-mobiledash.zip -d /var/www/html
+wget https://github.com/sebastianmadl/svxlink-mobiledash/releases/latest/download/svxlink-mobiledash-by-oe1sxm.zip
+sudo unzip -o svxlink-mobiledash-by-oe1sxm.zip -d /var/www/html
 ```
 
 Danach im Browser aufrufen:
 
 ```
-http://<IP-des-Pi>/mobile/
+http://<IP-des-SvxHosts>/mobile/
 ```
 
 -----
@@ -62,7 +62,6 @@ http://<IP-des-Pi>/mobile/
 - Apache läuft als Benutzer `svxlink` (erforderlich damit DTMF funktioniert!)
 - PHP 7.4+
 
-> **Wichtig:** Der Webserver muss als Benutzer `svxlink` laufen, sonst werden DTMF-Befehle nicht an den Repeater-Controller weitergeleitet.
 
 -----
 

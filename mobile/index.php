@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+// ── Dynamische Pfad-Erkennung ─────────────────────────────────────────────────
+// __DIR__ = Verzeichnis dieser Datei (z.B. /var/www/html/thomas/mobile)
+// dirname(__DIR__) = Dashboard-Root   (z.B. /var/www/html/thomas)
+$dashboardRoot = dirname(__DIR__);
+
 $svxConfPath = '/etc/svxlink/svxlink.conf';
 $svxconfig = file_exists($svxConfPath) ? parse_ini_file($svxConfPath, true, INI_SCANNER_RAW) : [];
 
@@ -9,19 +15,12 @@ if (strpos($reflHost,',') !== false) $reflHost = trim(explode(',',$reflHost)[0])
 $defaultTG  = $svxconfig['ReflectorLogic']['DEFAULT_TG']  ?? '—';
 $monTGs     = array_values(array_filter(array_map('trim', explode(',', $svxconfig['ReflectorLogic']['MONITOR_TGS'] ?? $defaultTG))));
 
-// Read DTMF/TG shortcut buttons from original dashboard config.php
-// Expected formats (examples):
-//   define("KEY1", array('Label','*91...#','orange'));
-//   define("TG1",  array('TG 232','*91232#','blue'));
+// ── DTMF/TG Schnellbefehle aus config.php des Dashboards ─────────────────────
 $dtmfBtns = [];
-$cfgFile = '/var/www/html/include/config.php';
+$cfgFile = $dashboardRoot . '/include/config.php';
 if (is_file($cfgFile)) {
     $txt = file_get_contents($cfgFile);
-
-    // Strip block comments first
     $txt = preg_replace('!/\*.*?\*/!s', '', $txt);
-
-    // Remove full-line comments (// or #)
     $lines = preg_split("/\r\n|\r|\n/", $txt);
     $clean = "";
     foreach ($lines as $line) {
@@ -29,9 +28,6 @@ if (is_file($cfgFile)) {
         if (preg_match('/^(\/\/|#)/', $t)) continue;
         $clean .= $line . "\n";
     }
-
-
-    // Match define("KEY.."/"TG..", array('Label','DTMF','color')) with single or double quotes
     if (preg_match_all('/define\s*\(\s*[\"\'](?:KEY|TG)\d+[\"\']\s*,\s*array\s*\(\s*[\"\']([^\"\']+)[\"\']\s*,\s*[\"\']([^\"\']+)[\"\']\s*,\s*[\"\']([^\"\']+)[\"\']\s*\)\s*\)\s*;/i', $clean, $m, PREG_SET_ORDER)) {
         foreach ($m as $r) {
             $dtmfBtns[] = ['l'=>$r[1],'d'=>$r[2],'c'=>$r[3]];
@@ -44,8 +40,7 @@ if (!$dtmfBtns) $dtmfBtns = [
     ['l'=>'EL trennen','d'=>'##','c'=>'red'],['l'=>'TG trennen','d'=>'*9#','c'=>'red'],
 ];
 
-
-// Hardware
+// ── Hardware Info ─────────────────────────────────────────────────────────────
 $t   = @file_get_contents('/sys/class/thermal/thermal_zone0/temp');
 $tv  = $t ? round($t/1000) : 0;
 $mem = @file_get_contents('/proc/meminfo');
@@ -68,21 +63,20 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d1117">
 <title><?=htmlspecialchars($callsign)?> Mobile</title>
+<!-- RELATIVE Pfade – funktionieren egal in welchem Verzeichnis das Dashboard liegt -->
 <link rel="stylesheet" href="css/app.css">
-<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
-<link rel="manifest" href="/mobile/manifest.json">
-<!-- Fallback für iOS (Safari ignoriert das Manifest teilweise) -->
-<link rel="apple-touch-icon" href="/mobile/images/icon-192.png">
+<link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="images/icon-192.png">
 </head>
 <body>
 
 <header>
   <div class="h-inner">
     <div class="h-left">
-      <!-- Logo aus dem Original-Dashboard -->
-      <img src="/images/svxlink.ico" class="logo">
-<div class="h-text">
+      <img src="../images/svxlink.ico" class="logo">
+      <div class="h-text">
         <div class="cs"><?=htmlspecialchars($callsign)?></div>
         <div class="rf"><?=htmlspecialchars($reflHost)?></div>
       </div>
@@ -135,7 +129,7 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
   </div>
 
   <a class="backlink" href="../index.php">↗ Vollständiges Dashboard öffnen</a>
-<div class="byline">SvxLink Mobile Dashboard Ver 1.0 © by OE1SXM 2026</div>
+  <div class="byline">SvxLink Mobile Dashboard Ver 1.0 © by OE1SXM 2026</div>
 </section>
 
 <!-- AKTIVITÄT -->
@@ -181,7 +175,7 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
 <section class="page" id="p-dtmf">
   <div class="card">
     <div class="ch"><div class="ct">DTMF Tastatur</div></div>
-    <div class="ddisp" id="ddisp">–</div>
+    <div class="ddisp" id="ddisp">—</div>
     <div class="dkeys">
       <?php foreach(['1','2','3','*','4','5','6','0','7','8','9','#'] as $k): ?>
       <button class="dkey" onclick="kp('<?=$k?>')"><?=$k?></button>
@@ -192,7 +186,7 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
       <button class="btn blue" onclick="ks()">Senden</button>
     </div>
   </div>
-<div class="card">
+  <div class="card">
     <div class="ch"><div class="ct">Schnellbefehle</div></div>
     <div class="qgrid">
       <?php foreach($dtmfBtns as $b):
@@ -203,7 +197,7 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
       <?php endforeach; ?>
     </div>
   </div>
-  
+</section>
 
 </main>
 

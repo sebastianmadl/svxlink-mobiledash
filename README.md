@@ -1,9 +1,15 @@
-# 📡 SVXLink Mobile Dashboard
+# 📡 SVXLink Mobile Dashboard Ver 1.0
 
 Eine Erweiterung um die mobil funktion des DL3EL Dashboards.
 Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2). Wird hier das Gesammte desktop Dashboard mobil verpackt und aufgeräumt.
 
-![SVXLink Mobile Dashboard Screenshot](screenshot.png)
+
+<p align="center">
+  <img src="/images/dark.png" width="350">
+  <img src="/images/activity.png" width="350">
+  <img src="/images/talkgroups.png" width="350">
+  <img src="/images/dtmf.png" width="350">
+</p>
 
 -----
 
@@ -66,6 +72,11 @@ http://<IP-des-SvxHosts>/mobile/
 ## 🖌️ Dark / Light Mode
 
 Das Dashboard passt sich automatisch an die Systemdarstellung des Handys an — kein manueller Schalter nötig. Einfach in den Display-Einstellungen des Smartphones zwischen Dark und Light Mode wechseln.
+
+<p align="center">
+  <img src="/images/dark.png" width="350">
+  <img src="/images/light.png" width="350">
+</p>
 
 -----
 

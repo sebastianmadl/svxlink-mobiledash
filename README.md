@@ -25,8 +25,7 @@ Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVX
 Vom Home-Verzeichnis auf dem Svx Servers / Pi ausführen:
 
 ```bash
-wget https://github.com/sebastianmadl/svxlink-mobiledash/blob/main/svxlink-mobiledash-by-oe1sxm.zip
-sudo unzip -o svxlink-mobiledash-by-oe1sxm.zip -d /var/www/html
+cd /var/www/html && sudo git clone --depth 1 https://github.com/sebastianmadl/svxlink-mobiledash.git temp && sudo mv temp/mobile mobile && sudo rm -rf temp && sudo chown -R www-data:www-data mobile
 ```
 
 Danach im Browser aufrufen:

@@ -16,6 +16,7 @@ Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVX
 ## ✨ Funktionen
 
 - 📊 **Live Dashboard** — Radiostatus, aktive TG, aktueller Sprecher
+- 📱 Als PWA App installierbar — Fullscreen wie auf den Screenshots
 - 📋 **Aktivitätslog** — SVXReflector-Aktivität in Echtzeit
 - 🔁 **Talk Groups** — TGs direkt anzeigen und aktivieren
 - ⌨️ **DTMF-Tastatur** — DTMF-Töne mit einem Tipp senden
@@ -63,7 +64,6 @@ http://<IP-des-SvxHosts>/mobile/
 ## ⚙️ Voraussetzungen
 
 - SVXLink-Dash-V2 installiert und funktionsfähig unter `/var/www/html`
-- Apache läuft als Benutzer `svxlink` (erforderlich damit DTMF funktioniert!)
 - PHP 7.4+
 
 
@@ -79,6 +79,28 @@ Das Dashboard passt sich automatisch an die Systemdarstellung des Handys an — 
 </p>
 
 -----
+
+## 📱 Als App installieren (PWA)
+
+Das Dashboard kann auf dem Homebildschirm installiert werden und verhält 
+sich dann wie eine native App — ohne Browser-Leiste, im Vollbild.
+
+**iOS (Safari):**
+1. Seite in Safari öffnen
+2. Teilen-Symbol antippen (⬆️)
+3. „Zum Home-Bildschirm" wählen
+4. Namen bestätigen → „Hinzufügen"
+
+**Android (Chrome):**
+1. Seite in Chrome öffnen
+2. Menü antippen (⋮)
+3. „Zum Startbildschirm hinzufügen" wählen
+4. Namen bestätigen → „Hinzufügen"
+
+> Tipp: Unter iOS muss zwingend Safari verwendet werden, 
+> unter Android funktioniert es auch mit Firefox oder Edge.
+
+ -----
 
 ## 👤 Autor
 

@@ -1,11 +1,3 @@
-/* Tasten quadratisch/eckig und größer machen */
-.dtmf-btn, .key-btn {
-  border-radius: 0 !important;        /* eckig statt rund */
-  padding: 18px 10px !important;      /* mehr Höhe */
-  aspect-ratio: 1 / 1;               /* quadratisch */
-  min-height: 70px;
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600&family=Barlow+Condensed:wght@600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{

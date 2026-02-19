@@ -1,8 +1,8 @@
 <?php
-// ── Dynamische Pfad-Erkennung ─────────────────────────────────────────────────
-// __DIR__ = .../whatever/mobile
-// dirname(__DIR__) = .../whatever  (Dashboard-Root)
-$dashboardRoot = dirname(__DIR__);
+// ── Dynamic Path Detection ────────────────────────────────────────────────────
+// __DIR__ = .../whatever/mobile/en
+// dirname(dirname(__DIR__)) = .../whatever  (dashboard root)
+$dashboardRoot = dirname(dirname(__DIR__));
 $cfgPath = $dashboardRoot . '/include/config.php';
 if (file_exists($cfgPath)) { include_once $cfgPath; }
 
@@ -10,7 +10,7 @@ function cdef($name, $default=null) {
     return defined($name) ? constant($name) : $default;
 }
 
-// Shortcuts aus config.php einlesen (KEY1..KEY40, TG1..TG40, COLOR1..COLOR40)
+// Read shortcuts from config.php (KEY1..KEY40, TG1..TG40, COLOR1..COLOR40)
 $shortcuts = [];
 for ($i=1; $i<=40; $i++) {
     $key = cdef("KEY{$i}", null);
@@ -22,16 +22,16 @@ for ($i=1; $i<=40; $i++) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>DTMF</title>
-  <!-- Pfade relativ zu mobile/ -->
-  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="../images/svxlink.ico">
-  <link rel="stylesheet" href="css/app.css">
+  <!-- Paths relative to mobile/en/ — one level deeper than mobile/ -->
+  <link rel="icon" href="../../images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="../../images/svxlink.ico">
+  <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
 <div class="page">
@@ -40,7 +40,7 @@ for ($i=1; $i<=40; $i++) {
     <h2 style="margin:0;">DTMF</h2>
   </div>
   <div class="card">
-    <h3 style="margin-top:0;">Tastatur</h3>
+    <h3 style="margin-top:0;">Keypad</h3>
     <div class="dtmf-pad">
       <?php
         $keys = ['1','2','3','*','4','5','6','0','7','8','9','#'];
@@ -51,9 +51,9 @@ for ($i=1; $i<=40; $i++) {
     </div>
   </div>
   <div class="card">
-    <h3 style="margin-top:0;">Schnellbefehle</h3>
+    <h3 style="margin-top:0;">Quick Commands</h3>
     <?php if (count($shortcuts) === 0): ?>
-      <div class="muted">Keine Schnellbefehle konfiguriert.</div>
+      <div class="muted">No quick commands configured.</div>
     <?php else: ?>
       <div class="shortcuts-grid">
         <?php foreach ($shortcuts as $s): ?>
@@ -68,8 +68,8 @@ for ($i=1; $i<=40; $i++) {
 </div>
 <script>
 function sendDTMF(d) {
-  // api/ liegt in mobile/api/ — relativ von hier
-  fetch('api/dtmf.php?digit=' + encodeURIComponent(d)).catch(()=>{});
+  // api/ lives in mobile/api/ — go up one level from en/ then into api/
+  fetch('../api/dtmf.php?digit=' + encodeURIComponent(d)).catch(()=>{});
 }
 </script>
 </body>

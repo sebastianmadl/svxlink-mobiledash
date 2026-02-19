@@ -2,7 +2,7 @@
 // Mobile DTMF API
 //   GET  api/dtmf.php?digit=5
 //   POST api/dtmf.php  body: dtmf=5
-// Hinweis: '#' URL-kodiert senden: digit=1%23
+// Note: '#' must be URL-encoded: digit=1%23
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -27,12 +27,11 @@ if (!preg_match('/^[0-9A-D\*#]+$/i', $digit)) {
     exit;
 }
 
-// ── Dynamische Pfad-Erkennung ─────────────────────────────────────────────────
+// ── Dynamic Path Detection ────────────────────────────────────────────────────
 // __DIR__ = .../whatever/mobile/api
-// dirname(dirname(__DIR__)) = .../whatever  (Dashboard-Root, dort liegt include/buttons.php)
+// dirname(dirname(__DIR__)) = .../whatever  (dashboard root)
 $dashboardRoot = dirname(dirname(__DIR__));
 
-// In den Dashboard-Root wechseln, damit relative Includes im Legacy-Script funktionieren
 chdir($dashboardRoot);
 
 $_POST['dtmfsvx'] = $digit;
@@ -44,5 +43,5 @@ if (file_exists($buttonsFile)) {
 
 while (ob_get_level() > 0) { @ob_end_clean(); }
 
-echo json_encode(['ok' => true, 'msg' => $digit . ' gesendet']);
+echo json_encode(['ok' => true, 'msg' => $digit . ' sent']);
 exit;

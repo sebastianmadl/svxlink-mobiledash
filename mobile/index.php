@@ -71,7 +71,9 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
 <link rel="stylesheet" href="css/app.css">
 <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
-
+<link rel="manifest" href="/mobile/manifest.json">
+<!-- Fallback für iOS (Safari ignoriert das Manifest teilweise) -->
+<link rel="apple-touch-icon" href="/mobile/images/icon-192.png">
 </head>
 <body>
 

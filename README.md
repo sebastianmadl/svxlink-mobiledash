@@ -1,11 +1,3 @@
-Hier ist eine professionelle Release-Beschreibung + verbesserte README.md, mit sauberer Erklärung zur config.php und dem „Spiegeln“ der Buttons.
-
-Du kannst das direkt kopieren.
-
-⸻
-
-README.md
-
 # SVXLink Mobile Dashboard
 
 Modernes, schnelles und mobiloptimiertes Dashboard für SVXLink.

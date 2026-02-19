@@ -133,7 +133,7 @@ $df  = @disk_free_space('/'); $dt2 = @disk_total_space('/');
   </div>
 
   <a class="backlink" href="../index.php">↗ Vollständiges Dashboard öffnen</a>
-<div class="byline">Mobile Dashboard v1.0 by OE1SXM</div>
+<div class="byline">SvxLink Mobile Dashboard Ver 1.0 © by OE1SXM 2026</div>
 </section>
 
 <!-- AKTIVITÄT -->

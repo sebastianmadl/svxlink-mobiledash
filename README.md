@@ -62,7 +62,7 @@ http://<IP-des-SvxHosts>/mobile/
 
 ## ⚙️ Voraussetzungen
 
-- SVXLink-Dash-V2 installiert und funktionsfähig unter `/var/www/html`
+- SVXLink-Dash-V2 installiert und funktionsfähig unter `/var/www/html` oder wenn unter einem anderen Pfad bitte das bash command unter install anpassen.
 - PHP 7.4+
 
 

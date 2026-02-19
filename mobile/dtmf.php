@@ -1,20 +1,22 @@
 <?php
-$cfgPath = '/var/www/html/include/config.php';
+// ── Dynamische Pfad-Erkennung ─────────────────────────────────────────────────
+// __DIR__ = .../whatever/mobile  →  dirname(__DIR__) = .../whatever (Dashboard-Root)
+$dashboardRoot = dirname(__DIR__);
+$cfgPath = $dashboardRoot . '/include/config.php';
 if (file_exists($cfgPath)) { include_once $cfgPath; }
 
 function cdef($name, $default=null) {
     return defined($name) ? constant($name) : $default;
 }
 
-// Collect shortcuts from config.php. We only show entries that are actually defined.
-// Common pattern: KEY1..KEY40, TG1..TG40, COLOR1..COLOR40
+// Shortcuts aus config.php einlesen (KEY1..KEY40, TG1..TG40, COLOR1..COLOR40)
 $shortcuts = [];
 for ($i=1; $i<=40; $i++) {
     $key = cdef("KEY{$i}", null);
     $tg  = cdef("TG{$i}", null);
     $col = cdef("COLOR{$i}", null);
 
-    if ($key === null || $tg === null) continue; // commented out / not configured
+    if ($key === null || $tg === null) continue;
     if ($col === null || trim($col) === '') $col = '#2b6cb0';
 
     $shortcuts[] = ['label'=>$tg, 'send'=>$key, 'color'=>$col];
@@ -26,19 +28,20 @@ for ($i=1; $i<=40; $i++) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>DTMF</title>
-  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="/images/svxlink.ico">
-  <link rel="stylesheet" href="/mobile/css/app.css">
+  <!-- RELATIVE Pfade – funktionieren in jedem Installationsverzeichnis -->
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="../images/svxlink.ico">
+  <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 <div class="page">
   <div class="page-header">
-    <a class="back-link" href="/mobile/">← Dashboard</a>
+    <a class="back-link" href="index.php">← Dashboard</a>
     <h2 style="margin:0;">DTMF</h2>
   </div>
 
-  <!-- Keypad on top -->
+  <!-- Tastatur oben -->
   <div class="card">
     <h3 style="margin-top:0;">Tastatur</h3>
     <div class="dtmf-pad">
@@ -51,7 +54,7 @@ for ($i=1; $i<=40; $i++) {
     </div>
   </div>
 
-  <!-- Shortcuts below (only here!) -->
+  <!-- Schnellbefehle darunter -->
   <div class="card">
     <h3 style="margin-top:0;">Schnellbefehle</h3>
     <?php if (count($shortcuts) === 0): ?>
@@ -71,7 +74,8 @@ for ($i=1; $i<=40; $i++) {
 
 <script>
 function sendDTMF(d) {
-  fetch('/mobile/api/dtmf.php?digit=' + encodeURIComponent(d)).catch(()=>{});
+  // Relative URL – kein absoluter /mobile/... Pfad nötig
+  fetch('api/dtmf.php?digit=' + encodeURIComponent(d)).catch(()=>{});
 }
 </script>
 </body>

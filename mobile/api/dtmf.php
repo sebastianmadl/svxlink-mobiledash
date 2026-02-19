@@ -1,19 +1,17 @@
 <?php
-// Mobile DTMF API – kompatibel mit:
-//   GET  /mobile/api/dtmf.php?digit=5       (dtmf.php-Seite / direkter Link)
-//   POST /mobile/api/dtmf.php  body: dtmf=5  (app.js / SPA)
-// Hinweis: '#' muss URL-kodiert werden: digit=1%23
+// Mobile DTMF API
+//   GET  api/dtmf.php?digit=5
+//   POST api/dtmf.php  body: dtmf=5
+// Hinweis: '#' URL-kodiert senden: digit=1%23
 
 header('Content-Type: application/json; charset=utf-8');
 
-// Output-Buffer bereinigen (Legacy-Includes könnten etwas ausgeben)
 while (ob_get_level() > 0) { @ob_end_clean(); }
 ob_start();
 register_shutdown_function(function () {
     while (ob_get_level() > 0) { @ob_end_clean(); }
 });
 
-// Parameter aus GET oder POST holen – unterstützt beide Feldnamen (digit + dtmf)
 $digit = $_GET['digit'] ?? $_POST['digit'] ?? $_POST['dtmf'] ?? '';
 $digit = trim($digit);
 
@@ -29,16 +27,21 @@ if (!preg_match('/^[0-9A-D\*#]+$/i', $digit)) {
     exit;
 }
 
-// Ins Webroot wechseln damit Includes im Original-Script korrekt aufgelöst werden
-chdir('/var/www/html');
+// ── Dynamische Pfad-Erkennung ─────────────────────────────────────────────────
+// __DIR__ = .../whatever/mobile/api
+// dirname(dirname(__DIR__)) = .../whatever  (Dashboard-Root, dort liegt include/buttons.php)
+$dashboardRoot = dirname(dirname(__DIR__));
 
-// Für das Legacy-Script als POST bereitstellen
+// In den Dashboard-Root wechseln, damit relative Includes im Legacy-Script funktionieren
+chdir($dashboardRoot);
+
 $_POST['dtmfsvx'] = $digit;
 
-// Original-Handler einbinden; dessen Ausgabe wird verworfen
-require 'include/buttons.php';
+$buttonsFile = $dashboardRoot . '/include/buttons.php';
+if (file_exists($buttonsFile)) {
+    require $buttonsFile;
+}
 
-// Ausgabe des Legacy-Scripts wegwerfen
 while (ob_get_level() > 0) { @ob_end_clean(); }
 
 echo json_encode(['ok' => true, 'msg' => $digit . ' gesendet']);

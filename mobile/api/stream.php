@@ -6,17 +6,14 @@ header('Connection: keep-alive');
 set_time_limit(0);
 ignore_user_abort(false);
 
-// Disable buffering/compression for SSE
 @ini_set('zlib.output_compression', '0');
 @ini_set('output_buffering', '0');
 @ini_set('implicit_flush', '1');
 while (ob_get_level() > 0) { @ob_end_flush(); }
 @ob_implicit_flush(1);
 
-
-$logFile  = '/var/log/svxlink';
+$logFile = '/var/log/svxlink';
 if (is_dir($logFile)) {
-  // Fallbacks if someone points to the directory
   foreach (['/var/log/svxlink/svxlink.log','/var/log/svxlink/svxlink'] as $cand) {
     if (is_file($cand)) { $logFile = $cand; break; }
   }
@@ -29,7 +26,6 @@ function sse($e,$d){echo "event: $e\ndata: ".json_encode($d)."\n\n";if(ob_get_le
 
 function pl($line,$defTG){
     $line=trim($line); if(!$line)return null;
-    // "18.02.2026 23:53:42: ReflectorLogic: Talker start on TG #23211: OE1PHS-HS1"
     if(preg_match('/^(\d{2}\.\d{2}\.\d{4})\s+(\d{2}:\d{2}:\d{2}):.*Talker start on TG\s+#(\d+):\s+(\S+)/',$line,$m))
         return['e'=>'start','date'=>$m[1],'time'=>$m[2],'tg'=>$m[3],'cs'=>strtoupper($m[4]),'primary'=>($m[3]===$defTG)];
     if(preg_match('/^(\d{2}\.\d{2}\.\d{4})\s+(\d{2}:\d{2}:\d{2}):.*Talker stop on TG\s+#(\d+):\s+(\S+)/',$line,$m))
@@ -42,19 +38,15 @@ function pl($line,$defTG){
         return['e'=>'tgsel','time'=>$m[1],'tg'=>$m[2]];
     if(preg_match('/(\d{2}:\d{2}:\d{2}):.*ReflectorLogic.*(Authentication OK|Connection established|Heartbeat timeout|Connection refused|Locally ordered disconnect)/',$line,$m))
         return['e'=>'conn','time'=>$m[1],'ok'=>(strpos($m[2],'OK')!==false||strpos($m[2],'established')!==false),'msg'=>$m[2]];
-
-    // Module activation/deactivation (Parrot, EchoLink, etc.)
     if(preg_match('/(\d{2}:\d{2}:\d{2}):.*\b(Activating|Deactivating|Starting|Stopping)\b.*\bmodule\b\s+([A-Za-z0-9_]+)/i',$line,$m))
         return['e'=>'mode','time'=>$m[1],'state'=> (stripos($m[2],'De')===0 || stripos($m[2],'Stop')===0) ? 'OFF' : 'ON','name'=>$m[3]];
     if(preg_match('/(\d{2}:\d{2}:\d{2}):.*\bModule([A-Za-z0-9_]+)\b.*\b(activated|deactivated|started|stopped)\b/i',$line,$m))
         return['e'=>'mode','time'=>$m[1],'state'=> (stripos($m[3],'de')===0 || stripos($m[3],'stop')===0) ? 'OFF' : 'ON','name'=>$m[2]];
-
     if(preg_match('/(\d{2}\.\d{2}\.\d{4})\s+(\d{2}:\d{2}:\d{2}):.*Incoming EchoLink connection from\s+(\S+)\s+\(([^)]*)\)/',$line,$m))
         return['e'=>'el','date'=>$m[1],'time'=>$m[2],'cs'=>strtoupper($m[3]),'name'=>$m[4]];
     return null;
 }
 
-// History
 $hist=[];
 if(file_exists($logFile)){
     $raw=shell_exec("tail -20000 ".escapeshellarg($logFile)." | grep -aE 'Talker start on|Talker stop on|Turning the transmitter|squelch is|Selecting TG|Authentication OK|Connection established|Heartbeat timeout|Connection refused|EchoLink connection from|Activating module|Deactivating module|Starting module|Stopping module|Module.*(activated|deactivated|started|stopped)' | tail -500");
@@ -62,7 +54,6 @@ if(file_exists($logFile)){
 }
 sse('history',['lines'=>$hist,'defTG'=>$defTG]);
 
-// tail -f
 $proc=proc_open("tail -F -n 0 ".escapeshellarg($logFile),[['pipe','r'],['pipe','w'],['pipe','w']],$pipes);
 if(!is_resource($proc)){sse('err',['msg'=>'Cannot tail log']);exit;}
 stream_set_blocking($pipes[1],false);

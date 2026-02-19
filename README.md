@@ -1,7 +1,6 @@
 # 📡 SVXLink Mobile Dashboard Ver 1.0 <img src="mobile/images/icon-512.png" width="40">
 
-Eine Erweiterung um die mobil funktion des DL3EL Dashboards.
-Aufgebaut auf Basis von [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2). Wird hier das Gesammte desktop Dashboard mobil verpackt und aufgeräumt.
+Diese Erweiterung baut auf dem [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2)  auf und bringt das vollständige Desktop-Dashboard in einer für das Smartphone optimierten und übersichtlichen Version.
 
 
 <p align="center">

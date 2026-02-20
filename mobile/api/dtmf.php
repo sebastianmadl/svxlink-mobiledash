@@ -34,14 +34,22 @@ $dashboardRoot = dirname(dirname(__DIR__));
 
 chdir($dashboardRoot);
 
-$_POST['dtmfsvx'] = $digit;
+$method = 'unknown';
 
+// ── Method 1: DL3EL dashboard — include/buttons.php ──────────────────────────
 $buttonsFile = $dashboardRoot . '/include/buttons.php';
 if (file_exists($buttonsFile)) {
+    $_POST['dtmfsvx'] = $digit;
     require $buttonsFile;
+    $method = 'buttons.php';
+}
+// ── Method 2: sp0ng original dashboard — /tmp/dtmf_svx ───────────────────────
+else {
+    file_put_contents('/tmp/dtmf_svx', $digit . "\n");
+    $method = 'dtmf_svx';
 }
 
 while (ob_get_level() > 0) { @ob_end_clean(); }
 
-echo json_encode(['ok' => true, 'msg' => $digit . ' sent']);
+echo json_encode(['ok' => true, 'msg' => $digit . ' sent', 'method' => $method]);
 exit;

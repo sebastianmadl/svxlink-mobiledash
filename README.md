@@ -46,7 +46,7 @@ Then open in your browser for English:
 
 ```
 http://<IP-of-SvxHost>/mobile/en
-``
+```
 
 -----
 

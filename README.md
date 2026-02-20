@@ -1,5 +1,7 @@
 # 📡 SVXLink Mobile Dashboard Ver 1.1 <img src="mobile/images/icon-512.png" width="40">
 
+🇩🇪 [Deutsche Version dieser README](README_de.md)
+
 A clean, smartphone-optimized mobile frontend for SVXLink reflector nodes. Originally built as an extension for [SVXLink-Dash-V2 by DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2) — also fully compatible with the original dashboard by [SP2ONG and SP0DZ](https://github.com/SP2ONG/SVXLink-Dashboard).
 
 <p align="center">
@@ -37,11 +39,16 @@ A clean, smartphone-optimized mobile frontend for SVXLink reflector nodes. Origi
 
 ## 📲 Installation
 
-> **Note:** The one-liner below assumes your web root is `/var/www/html` — the default for both [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) and the [SP2ONG/SP0DZ Dashboard](https://github.com/SP2ONG/SVXLink-Dashboard). If your setup uses a different web root, adjust the path in the command accordingly.
+> **Note:** The commands below assume your web root is `/var/www/html` — the default for both [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) and the [SP2ONG/SP0DZ Dashboard](https://github.com/SP2ONG/SVXLink-Dashboard). If your setup uses a different web root, adjust the path accordingly.
 
-Run on your SVXLink server or Raspberry Pi:
+Navigate to your web root:
 ```bash
-cd /var/www/html && sudo git clone --depth 1 https://github.com/sebastianmadl/svxlink-mobiledash.git temp && sudo mv temp/mobile mobile && sudo rm -rf temp && sudo chown -R www-data:www-data mobile && sudo chmod 666 mobile/configs/mobile_settings.json
+cd /var/www/html
+```
+
+Clone and install:
+```bash
+sudo git clone --depth 1 https://github.com/sebastianmadl/svxlink-mobiledash.git temp && sudo mv temp/mobile mobile && sudo rm -rf temp && sudo chown -R www-data:www-data mobile && sudo chmod 666 mobile/configs/mobile_settings.json
 ```
 
 Then open in your browser:
@@ -50,6 +57,24 @@ http://<IP-of-SvxHost>/mobile/
 ```
 
 On first launch the setup wizard will guide you through language and theme selection.
+
+-----
+
+## 🔄 Update from Ver 1.0
+
+> **Note:** Navigate to the web root of your dashboard installation before running the update — in most cases `/var/www/html`.
+```bash
+cd /var/www/html
+```
+
+Remove the old installation:
+```bash
+sudo rm -rf mobile
+```
+
+Then follow the [Installation](#-installation) steps above.
+
+> **Note:** This will reset your language and theme selection. The setup wizard will run again on first launch.
 
 -----
 
@@ -120,6 +145,20 @@ Choose between Dark, Light or System theme during the first-start wizard or at a
         ├── icon-192.png          # PWA icon (small)
         └── icon-512.png          # PWA icon (large)
 ```
+
+-----
+
+## 📋 Changelog
+
+### Ver 1.1 — 2026-02-20
+- **New structure** — `en/` subdirectory removed, single `index.php` handles both languages
+- **`configs/` folder** — `config.php` and `mobile_config.php` moved into dedicated subfolder
+- **`mobile_settings.json`** — language & theme now stored as JSON instead of PHP defines
+- **`setup.php`** — new welcome page on first launch with language & theme selection incl. live preview
+- **`settings.php`** — AJAX handler that writes to `mobile_settings.json`
+- **Live switching** — language & theme change without page reload via `data-i18n` and `CFG.allStrings`
+- **Settings menu** — tap the connection badge (top right corner) to open the settings modal
+- **`api/dtmf.php`** — simplified, writes directly to `/tmp/dtmf_svx`, compatible with SP2ONG/SP0DZ and DL3EL
 
 -----
 

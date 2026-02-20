@@ -2,7 +2,7 @@
 
 🇬🇧 [English version of this README](README.md)
 
-Ein sauberes, smartphone-optimiertes mobiles Frontend für SVXLink Reflector Nodes. Ursprünglich als Erweiterung für [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2) entwickelt — auch vollständig kompatibel mit dem originalen Dashboard von [SP2ONG und SP0DZ](https://github.com/SP2ONG/SVXLink-Dashboard).
+Ein smartphone-optimiertes mobiles Frontend für SVXLink Reflector Nodes. Ursprünglich als Erweiterung für [SVXLink-Dash-V2 von DL3EL](https://github.com/DL3EL/SVXLink-Dash-V2) entwickelt — jetzt auch vollständig kompatibel mit dem originalen Dashboard von [SP2ONG und SP0DZ](https://github.com/SP2ONG/SVXLink-Dashboard).
 
 <p align="center">
   <img src="/images/dashboard.png" width="350">

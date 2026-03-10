@@ -1,0 +1,10 @@
+<?php
+// SVXLink Pfade
+// Integrierte Installation: Pfade kommen von ../include/config.php, Werte hier werden ignoriert.
+// Standalone Installation: Pfade hier anpassen.
+
+if (!defined('SVXCONFPATH'))  define('SVXCONFPATH',  '/etc/svxlink');   // Ordner mit svxlink.conf
+if (!defined('SVXCONFIG'))    define('SVXCONFIG',    'svxlink.conf');   // Konfigurationsdatei
+if (!defined('SVXLOGPATH'))   define('SVXLOGPATH',   '/var/log');       // Log-Verzeichnis
+if (!defined('SVXLOGPREFIX')) define('SVXLOGPREFIX', 'svxlink');        // Praefix des Log-Dateinamens
+if (!defined('DTMF_FILE'))    define('DTMF_FILE',    '/tmp/dtmf_svx'); // DTMF Uebergabe-Datei

@@ -1,4 +1,4 @@
-# 📡 SVXLink Mobile Dashboard Ver 1.1 <img src="mobile/images/icon-512.png" width="40">
+# 📡 SVXLink Mobile Dashboard Ver 2.0 <img src="mobile/images/icon-512.png" width="40">
 
 🇩🇪 [Deutsche Version dieser README](README_de.md)
 
@@ -14,6 +14,13 @@ A clean, smartphone-optimized mobile frontend for SVXLink reflector nodes. Origi
 -----
 
 ## ✨ Features
+
+### 🆕 New in Version 2.0
+- 🏷️ **TG Renaming** — Rename talk groups with custom names, DL3EL database or a mix of both
+- 🛡️ **Safe Updates** — `config.php` and `mobile_settings.json` excluded from Git, auto-created from templates on first start
+- 🔁 **SSE Reconnect** — Automatic reconnect with exponential backoff (max. 30s) on connection loss
+- 🚀 **deploy.sh** — Installer/Updater script with pre-flight check and automatic config backup & restore
+
 
 ### 🖥️ Dashboard & Live Data
 - 📊 **Live Dashboard** — Radio status, active TGs and current speaker via SSE
@@ -35,20 +42,16 @@ A clean, smartphone-optimized mobile frontend for SVXLink reflector nodes. Origi
 ### 📱 Mobile
 - 📱 **Installable as PWA** — Fullscreen app experience on iOS & Android
 
+
 -----
 
 ## 📲 Installation
 
-> **Note:** The commands below assume your web root is `/var/www/html` — the default for both [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) and the [SP2ONG/SP0DZ Dashboard](https://github.com/SP2ONG/SVXLink-Dashboard). If your setup uses a different web root, adjust the path accordingly.
-
-Navigate to your web root:
-```bash
-cd /var/www/html
-```
+> **Note:** The commands below assume your web root is `/var/www/html` — the default for both [SVXLink-Dash-V2](https://github.com/DL3EL/SVXLink-Dash-V2) and the [SP2ONG/SP0DZ Dashboard](https://github.com/SP2ONG/SVXLink-Dashboard). If your setup uses a different web root, adjust the deploy.sh accordingly. (Line 16 DST= ... )
 
 Clone and install:
 ```bash
-sudo git clone --depth 1 https://github.com/sebastianmadl/svxlink-mobiledash.git temp && sudo mv temp/mobile mobile && sudo rm -rf temp && sudo chown -R www-data:www-data mobile && sudo chmod 666 mobile/configs/mobile_settings.json
+cd /home/svxlink && sudo git clone --depth 1 https://github.com/sebastianmadl/svxlink-mobiledash.git temp && sudo mv temp/mobile mobile && sudo mv temp/deploy.sh deploy.sh && sudo rm -rf temp && sudo bash deploy.sh
 ```
 
 Then open in your browser:
@@ -60,7 +63,7 @@ On first launch the setup wizard will guide you through language and theme selec
 
 -----
 
-## 🔄 Update from Ver 1.0
+## 🔄 Update from Ver 1.x
 
 > **Note:** Navigate to the web root of your dashboard installation before running the update — in most cases `/var/www/html`.
 ```bash
@@ -122,33 +125,44 @@ Choose between Dark, Light or System theme during the first-start wizard or at a
 ├── index.php                     # Linked from mobile index.php (↗ Full Dashboard)
 │
 └── mobile/
-    ├── index.php                 # Main SPA (EN + DE, single file)
-    ├── setup.php                 # Welcome Page (first start only)
-    ├── settings.php              # AJAX handler – saves language & theme
-    ├── manifest.json             # PWA manifest
+    ├── index.php                         # Main SPA (EN + DE, single file)
+    ├── setup.php                         # Welcome Page (first start only)
+    ├── settings.php                      # AJAX handler – saves language, theme & TG settings
+    ├── manifest.json                     # PWA manifest
     ├── configs/
-    │   ├── config.php            # Central config – reads ../include/config.php (SVX paths)
-    │   │                         #                – reads mobile_config.php (app metadata)
-    │   │                         #                – reads mobile_settings.json (language, theme)
-    │   ├── mobile_config.php     # App metadata (version, year, author)
-    │   └── mobile_settings.json  # User settings (language, theme) ← chmod 666
+    │   ├── config.php                    # Central config ← NOT in Git, auto-copied from .example
+    │   ├── config.php.example            # Template for config.php ← in Git
+    │   ├── mobile_settings.json          # User settings (language, theme) ← NOT in Git, auto-copied from .example
+    │   └── mobile_settings.json.example  # Template for mobile_settings.json ← in Git
     ├── css/
-    │   └── app.css               # Shared styles incl. Dark/Light/System theme
+    │   └── app.css                       # Shared styles incl. Dark/Light/System theme
     ├── js/
-    │   └── app.js                # Frontend logic – live language & theme switch
+    │   └── app.js                        # Frontend logic – live language & theme switch
     ├── api/
-    │   ├── dtmf.php              # DTMF endpoint – writes code to /tmp/dtmf_svx
-    │   │                         #               – compatible with SP2ONG/SP0DZ and DL3EL
-    │   └── stream.php            # SSE stream – tails log from SVXLOGPATH/SVXLOGPREFIX
-    │                             #            – reads SVX paths via configs/config.php
+    │   ├── dtmf.php                      # DTMF endpoint – writes code to /tmp/dtmf_svx
+    │   └── stream.php                    # SSE stream – tails SVXLink log
     └── images/
-        ├── icon-192.png          # PWA icon (small)
-        └── icon-512.png          # PWA icon (large)
+        ├── icon-192.png                  # PWA icon (small)
+        └── icon-512.png                  # PWA icon (large)
+
 ```
 
 -----
 
 ## 📋 Changelog
+
+### Ver 2.0 — 2026-03-10
+- **TG Renaming** — talk groups can be renamed (Custom, DL3EL, Mixed)
+- **TG Source** — TG name source selectable: `off` / `custom` / `dl3el` / `mixed`
+- **TG Editor** — add/edit custom TG entries directly in the settings menu
+- **SSE Reconnect** — exponential backoff (max. 30s) on connection loss
+- **`configs/` restructured** — `config.php` & `config.php.example` as templates,
+  auto-copied on first start
+- **`mobile_settings.json.example`** — new template, auto-copied to `mobile_settings.json`
+  on first start
+- **`deploy.sh`** — new deploy/update script with Installer/Updater detection,
+  pre-flight check, config backup & restore
+- **`api/stream.php`** — reads SVX paths via `configs/config.php` for non DL3EL Dashboards
 
 ### Ver 1.1 — 2026-02-20
 - **New structure** — `en/` subdirectory removed, single `index.php` handles both languages

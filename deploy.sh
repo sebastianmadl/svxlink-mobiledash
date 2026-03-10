@@ -123,3 +123,8 @@ else
     echo -e "${GREEN}${BOLD}╚══════════════════════════════════════════╝${NC}"
 fi
 echo ""
+
+# Cleanup — remove source and temp directories
+rm -rf /home/svxlink/mobile
+rm -rf /home/svxlink/temp
+rm -- "$0"
